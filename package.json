@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "webpack loader which converts SVG files to PNG files",
   "main": "lib/index.js",
+  "files": [
+    "lib"
+  ],
   "engines": {
     "node": ">=4"
   },
