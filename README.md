@@ -20,9 +20,8 @@ The loader may be configured to export a single or multiple PNGs with varying di
 - `sizes` - Used if exporting multiple PNGs from a single SVG. Holds an array of sizes.
 
 ### Examples
-The following example yeilds a single 32x32 PNG:
+The following example yields a single 32x32 PNG:
 ```js
-// Generates a single PNG at ${output}/img-32x32.png
 require("svg-to-png-loader?height=32&width=32!img.svg");
 ```
 The following example yields multiple PNGs at ${output}/assets/icon-[height]x[width].png using the `sizes` option along with a custom name template specified in the `name` option:
