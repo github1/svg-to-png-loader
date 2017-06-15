@@ -1,6 +1,6 @@
 {
   "name": "svg-to-png-loader",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "webpack loader which converts SVG files to PNG files",
   "main": "lib/index.js",
   "files": [

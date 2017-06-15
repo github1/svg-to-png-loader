@@ -58,12 +58,12 @@ export default {
         } else {
           child_process.exec(inkscapeCmd, (err, stdout, stderr) => {
             const log = function (line, stream) {
-              if (stream.length > 0) {
-                stream.apply(null, line);
+              if (line.length > 0) {
+                stream(line);
               }
             };
-            log(stdout, console.log);
-            log(stderr, console.error);
+            log(stdout, console.log.bind(console));
+            log(stderr, console.error.bind(console));
             if (err) {
               reject(err);
             } else {
