@@ -13,7 +13,7 @@ export default function () {
       helper,
       child_process,
       os.platform(),
-      process.env["SVG_TO_PNG_DRYRUN"] !== "false"
+      process.env["SVG_TO_PNG_DRYRUN"] == "true"
     )
     .then(() => {
       callback(null, "");
