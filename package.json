@@ -1,0 +1,77 @@
+{
+  "name": "svg-to-png-loader",
+  "version": "1.0.0",
+  "description": "webpack loader which converts SVG files to PNG files",
+  "main": "lib/index.js",
+  "engines": {
+    "node": ">=4"
+  },
+  "dependencies": {
+    "loader-utils": "^1.1.0"
+  },
+  "peerDependencies": {
+    "webpack": "2"
+  },
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-istanbul": "^4.1.4",
+    "babel-preset-env": "^1.5.2",
+    "babel-register": "^6.24.1",
+    "cross-env": "^5.0.1",
+    "eslint": "^3.19.0",
+    "eslint-config-babel": "^6.0.0",
+    "eslint-plugin-flowtype": "^2.34.0",
+    "nyc": "^11.0.2",
+    "rimraf": "^2.6.1"
+  },
+  "scripts": {
+    "clean": "rimraf lib/",
+    "lint": "eslint src",
+    "test": "npm run lint && cross-env BABEL_ENV=test npm run build && SVG_TO_PNG_DRYRUN=true nyc ava",
+    "build": "babel src/ --out-dir lib/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/github1/svg-to-png-loader.git"
+  },
+  "keywords": [
+    "webpack",
+    "loader",
+    "svg",
+    "png"
+  ],
+  "author": "John Collier <john.collier4@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/github1/svg-to-png-loader/issues"
+  },
+  "homepage": "https://github.com/github1/svg-to-png-loader#readme",
+  "nyc": {
+    "all": true,
+    "include": [
+      "src/**/*.js"
+    ],
+    "reporter": [
+      "html",
+      "text",
+      "json"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "sourceMap": false,
+    "instrument": true
+  },
+  "ava": {
+    "files": [
+      "test/**/*.test.js"
+    ],
+    "source": [
+      "src/**/*.js"
+    ],
+    "babel": "inherit"
+  }
+}
