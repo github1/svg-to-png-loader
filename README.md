@@ -2,15 +2,15 @@
 
 A webpack loader which converts SVG files to PNG files.
 
+[![build status](https://img.shields.io/travis/github1/svg-to-png-loader/master.svg?style=flat-square)](https://travis-ci.org/github1/svg-to-png-loader)
+[![npm version](https://img.shields.io/npm/v/svg-to-png-loader.svg?style=flat-square)](https://www.npmjs.com/package/svg-to-png-loader)
+[![npm downloads](https://img.shields.io/npm/dm/svg-to-png-loader.svg?style=flat-square)](https://www.npmjs.com/package/svg-to-png-loader)
+
 ## Install
 
 ```bash
 npm install svg-to-png-loader --save-dev
 ```
-
-[![build status](https://img.shields.io/travis/github1/svg-to-png-loader/master.svg?style=flat-square)](https://travis-ci.org/github1/svg-to-png-loader)
-[![npm version](https://img.shields.io/npm/v/svg-to-png-loader.svg?style=flat-square)](https://www.npmjs.com/package/svg-to-png-loader)
-[![npm downloads](https://img.shields.io/npm/dm/svg-to-png-loader.svg?style=flat-square)](https://www.npmjs.com/package/svg-to-png-loader)
 
 _Note: This package requires [inkscape][inkscape] to be available on your path._
 
