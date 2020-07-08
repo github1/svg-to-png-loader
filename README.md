@@ -9,6 +9,7 @@ A webpack loader which converts SVG files to PNG files.
 ## Prerequisites
 
 - Node.js v10.12.0 or greater
+- [inkscape]
 
 ## Install
 
@@ -16,18 +17,16 @@ A webpack loader which converts SVG files to PNG files.
 npm install svg-to-png-loader --save-dev
 ```
 
-_Note: This package requires [inkscape][inkscape]._
-
 ## Usage
 
 The loader can be configured to export one or more PNGs with varying dimensions. For a single PNG, the height and width can be specified directly. The height/width and size options are mutually exclusive:
 
-- `name` - _(Optional)_. A template string for the output file name. Defaults to `[name]-[height]x[width].png`.
-- `height` - The height of the resulting PNG. Use
-- `width` - The width of the resulting PNG.
-- `sizes` - An array of sizes (height, width). Size entries should be formatted like `[height]x[width]` (e.g. `57x32`) or just `[number]` (e.g. `57`) for square dimensions. 
-- `outputPath` - _(Optional)_. Path where the PNG file(s) will be placed.
-- `inkscape` - _(Optional)_. Path to inkscape binary.
+- __name__ - _(Optional)_. A template string for the output file name. Defaults to `[name]-[height]x[width].png`.
+- __height__ - The height of the resulting PNG. Use
+- __width__ - The width of the resulting PNG.
+- __sizes__ - An array of sizes (height, width). Size entries should be formatted like `[height]x[width]` (e.g. `57x32`) or just `[number]` (e.g. `57`) for square dimensions. 
+- __outputPath__ - _(Optional)_. Path where the PNG file(s) will be placed.
+- __inkscape__ - _(Optional)_. Path to inkscape binary.
 
 ### Examples
 The following example generates a single 32x32 PNG:
