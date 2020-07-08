@@ -34,7 +34,7 @@ export default function (content) {
   options.name = options.name.replace('[name]', path
     .basename(this.resourcePath)
     .replace(/\..*$/, ''));
-  const outputPathBase = loaderUtils.interpolateName(
+  let outputPathBase = loaderUtils.interpolateName(
     this,
     options.name,
     {
@@ -43,7 +43,9 @@ export default function (content) {
       regExp: options.regExp,
     }
   );
-
+  if (options.outputPath) {
+    outputPathBase = path.join(options.outputPath, outputPathBase);
+  }
   Promise.all(prepareSizes(options).map((size) => {
     return new Promise((resolve, reject) => {
       const outputPath = outputPathBase.replace(/\[([^\]]+)]/g, (match) => {
@@ -54,6 +56,7 @@ export default function (content) {
         "/Applications/Inkscape.app/Contents/Resources/bin/inkscape" :
         "inkscape");
       const exportOutputPath = path.join(context, `${outputPath}.export`);
+      fs.mkdirSync(path.dirname(exportOutputPath), {recursive: true});
       const cp = child_process.spawn(inkscapeBin, [`--export-png=${exportOutputPath}`,
         `--export-height=${size.height}`,
         `--export-width=${size.width}`, this.resourcePath]);
@@ -71,7 +74,7 @@ export default function (content) {
               reject(new Error(`Failed to load ${exportOutputPath}`));
             } else {
               fs.unlink(exportOutputPath, (err) => {
-                if(err) {
+                if (err) {
                   logger.error(`Failed to clean ${exportOutputPath}`, err);
                 }
               });

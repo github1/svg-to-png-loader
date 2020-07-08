@@ -14,7 +14,7 @@
     "lib"
   ],
   "engines": {
-    "node": ">=4"
+    "node": ">=10.12.0"
   },
   "dependencies": {
     "loader-utils": "^1.2.0"

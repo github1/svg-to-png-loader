@@ -92,6 +92,36 @@ test.cb("with loader", (t) => {
     });
 });
 
+test.cb("with outputPath", (t) => {
+  const compiler = getCompiler("with-loader.js", {
+    module: {
+      rules: [
+        {
+          test: /\.svg$/i,
+          rules: [
+            {
+              loader: path.resolve(__dirname, "../lib/index"),
+              options: {
+                name: "[name]-[height]x[width].png",
+                outputPath: "images",
+                sizes: ["160x160"]
+              }
+            },
+          ],
+        },
+      ]
+    }
+  });
+  compile(compiler)
+    .then((stats) => {
+      t.true(Object.keys(stats.compilation.assets).includes('images/Freesample-160x160.png'))
+      t.end();
+    })
+    .catch((err) => {
+      t.fail(err)
+    });
+});
+
 test.cb("throws error if no size provided", (t) => {
   const compiler = getCompiler("with-loader.js", {
     module: {

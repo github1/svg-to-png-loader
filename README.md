@@ -6,6 +6,10 @@ A webpack loader which converts SVG files to PNG files.
 [![npm version](https://img.shields.io/npm/v/svg-to-png-loader.svg?style=flat-square)](https://www.npmjs.com/package/svg-to-png-loader)
 [![npm downloads](https://img.shields.io/npm/dm/svg-to-png-loader.svg?style=flat-square)](https://www.npmjs.com/package/svg-to-png-loader)
 
+## Prerequisites
+
+- Node.js v10.x or greater	- Node.js v10.12.0 or greater
+
 ## Install
 
 ```bash
