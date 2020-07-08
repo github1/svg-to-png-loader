@@ -1,3 +1,7 @@
 language: node_js
 node_js:
   - "8"
+before_install:
+  - sudo add-apt-repository ppa:inkscape.dev/stable -y
+  - sudo apt-get update -q || true
+  - sudo apt-get install inkscape -y
