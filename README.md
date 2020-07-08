@@ -26,6 +26,7 @@ The loader can be configured to export one or more PNGs with varying dimensions.
 - `height` - The height of the resulting PNG. Use
 - `width` - The width of the resulting PNG.
 - `sizes` - An array of sizes (height, width). Size entries should be formatted like `[height]x[width]` (e.g. `57x32`) or just `[number]` (e.g. `57`) for square dimensions. 
+- `outputPath` - _(Optional)_. Path where the PNG file(s) will be placed.
 - `inkscape` - _(Optional)_. Path to inkscape binary.
 
 ### Examples

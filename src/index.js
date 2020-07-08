@@ -55,7 +55,8 @@ export default function (content) {
       const inkscapeBin = options.inkscape || (os.platform() === "darwin" ?
         "/Applications/Inkscape.app/Contents/Resources/bin/inkscape" :
         "inkscape");
-      const exportOutputPath = path.join(context, `${outputPath}.export`);
+      const exportNum = Math.floor(100000 + Math.random() * 9000000);
+      const exportOutputPath = path.join(context, `${outputPath}.${exportNum}.export`);
       fs.mkdirSync(path.dirname(exportOutputPath), {recursive: true});
       const cp = child_process.spawn(inkscapeBin, [`--export-png=${exportOutputPath}`,
         `--export-height=${size.height}`,
