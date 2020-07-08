@@ -1,6 +1,6 @@
 {
   "name": "svg-to-png-loader",
-  "version": "1.0.5",
+  "version": "2.0.0",
   "description": "webpack loader which converts SVG files to PNG files",
   "license": "MIT",
   "repository": "github1/svg-to-png-loader",
@@ -28,19 +28,22 @@
     "babel-core": "^6.25.0",
     "babel-eslint": "^10.0.0",
     "babel-plugin-istanbul": "^4.1.4",
-    "babel-preset-env": "^1.5.2",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "1.7.0",
     "babel-register": "^6.24.1",
     "cross-env": "^5.0.1",
     "eslint": "^6.0.0",
     "eslint-config-babel": "^9.0.0",
     "eslint-plugin-flowtype": "^3.12.1",
+    "memfs": "^3.2.0",
     "nyc": "^11.0.2",
-    "rimraf": "^2.6.1"
+    "rimraf": "^2.6.1",
+    "webpack": "^4.43.0"
   },
   "scripts": {
     "clean": "rimraf lib/",
     "lint": "eslint src",
-    "test": "npm run lint && cross-env BABEL_ENV=test npm run build && SVG_TO_PNG_DRYRUN=true nyc ava",
+    "test": "npm run lint && cross-env BABEL_ENV=test npm run build && nyc ava",
     "build": "babel src/ --out-dir lib/",
     "prepublishOnly": "npm run build"
   },

@@ -12,16 +12,17 @@ A webpack loader which converts SVG files to PNG files.
 npm install svg-to-png-loader --save-dev
 ```
 
-_Note: This package requires [inkscape][inkscape] to be available on your path._
+_Note: This package requires [inkscape][inkscape]._
 
 ## Usage
 
-The loader may be configured to export a single or multiple PNGs with varying dimensions. For a single PNG, the height and width can be specified directly:
+The loader can be configured to export one or more PNGs with varying dimensions. For a single PNG, the height and width can be specified directly. The height/width and size options are mutually exclusive:
 
 - `name` - _(Optional)_. A template string for the output file name. Defaults to `[name]-[height]x[width].png`.
-- `height` - The height of the resulting PNG.
+- `height` - The height of the resulting PNG. Use
 - `width` - The width of the resulting PNG.
-- `sizes` - Used to export multiple PNGs for a single input SVG. Holds an array of sizes. Size entries may be formatted like `[height]x[width]` (e.g. `57x32`) or just `[number]` (e.g. `57`) for square dimensions. 
+- `sizes` - An array of sizes (height, width). Size entries should be formatted like `[height]x[width]` (e.g. `57x32`) or just `[number]` (e.g. `57`) for square dimensions. 
+- `inkscape` - _(Optional)_. Path to inkscape binary.
 
 ### Examples
 The following example generates a single 32x32 PNG:
@@ -40,9 +41,9 @@ require("svg-to-png-loader?" +
     "sizes[]=152," +
     "sizes[]=180," +
     "sizes[]=192" +
-    "&name=assets/icon-[height]x[width].png!./assets/icon.svg");
+    "&name=assets/icon-[height]x[width]-[contenthash].png!./assets/icon.svg");
 ```
-You can also use the loader directly in your webpack config. The below example will transform imported `svg` files with a suffix of `.icon.svg` (e.g. to distinguish icons from other svgs):
+You can also use the loader in your webpack config. The below example will transform imported `svg` files with a suffix of `.icon.svg` (e.g. to distinguish icons from other svgs):
 ```js
 module.exports = {
   //...

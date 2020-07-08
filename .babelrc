@@ -2,6 +2,9 @@
   "presets": [
     ["env", { "loose": true, "targets": { "node": 4 } }]
   ],
+  "plugins": [
+    "babel-plugin-transform-object-rest-spread"
+  ],
   "env": {
     "test": {
       "plugins": ["istanbul"]
