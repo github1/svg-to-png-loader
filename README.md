@@ -8,7 +8,7 @@ A webpack loader which converts SVG files to PNG files.
 
 ## Prerequisites
 
-- Node.js v10.x or greater	- Node.js v10.12.0 or greater
+- Node.js v10.12.0 or greater
 
 ## Install
 
