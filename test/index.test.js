@@ -114,7 +114,7 @@ test.cb("with outputPath", (t) => {
   });
   compile(compiler)
     .then((stats) => {
-      t.true(Object.keys(stats.compilation.assets).includes('images/Freesample-160x160.png'))
+      t.true(Object.keys(stats.compilation.assets).includes(`images${path.sep}Freesample-160x160.png`))
       t.end();
     })
     .catch((err) => {

@@ -1,8 +1,7 @@
 import * as loaderUtils from "loader-utils";
 import path from "path";
-import os from "os";
-import child_process from "child_process";
 import fs from "fs";
+import { createConverter } from 'convert-svg-to-png';
 
 const prepareSizes = options =>
   [options.height ? [
@@ -46,29 +45,25 @@ export default function (content) {
   if (options.outputPath) {
     outputPathBase = path.join(options.outputPath, outputPathBase);
   }
+
+  const converter = createConverter();
   Promise.all(prepareSizes(options).map((size) => {
     return new Promise((resolve, reject) => {
       const outputPath = outputPathBase.replace(/\[([^\]]+)]/g, (match) => {
         match = match.replace(/^\[|]$/g, '');
         return size[match] ? size[match] : match
       });
-      const inkscapeBin = options.inkscape || (os.platform() === "darwin" ?
-        "/Applications/Inkscape.app/Contents/Resources/bin/inkscape" :
-        "inkscape");
+
       const exportNum = Math.floor(100000 + Math.random() * 9000000);
       const exportOutputPath = path.join(context, `${outputPath}.${exportNum}.export`);
-      fs.mkdirSync(path.dirname(exportOutputPath), {recursive: true});
-      const cp = child_process.spawn(inkscapeBin, [`--export-png=${exportOutputPath}`,
-        `--export-height=${size.height}`,
-        `--export-width=${size.width}`, this.resourcePath]);
-      cp.stdout.on('data', (data) => {
-        logger.info(`${data}`);
-      });
-      cp.stderr.on('data', (data) => {
-        logger.error(`${data}`);
-      });
-      cp.on('close', (code) => {
-        if (code === 0) {
+      fs.mkdirSync(path.dirname(exportOutputPath), { recursive: true });
+
+      converter.convertFile(this.resourcePath, {
+        outputFilePath: exportOutputPath,
+        width: size.width,
+        height: size.height,
+      })
+        .then(() => {
           fs.readFile(exportOutputPath, (err, content) => {
             if (err) {
               logger.error(`Failed to load ${exportOutputPath}`, err);
@@ -80,14 +75,11 @@ export default function (content) {
                 }
               });
               this.emitFile(outputPath, content);
-              resolve({size, outputPath});
+              resolve({ size, outputPath });
             }
           });
-        } else {
-          reject(new Error(`Failed to export ${outputPath}`));
-        }
-      });
-    })
+        });
+    });
   }))
     .then((results) => {
       let output = 'module.exports = {';
@@ -100,5 +92,8 @@ export default function (content) {
     })
     .catch((error) => {
       callback(error);
+    })
+    .finally(() => {
+      converter.destroy();
     });
 }
