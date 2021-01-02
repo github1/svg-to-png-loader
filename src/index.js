@@ -3,8 +3,8 @@ import path from "path";
 import fs from "fs";
 import { createConverter } from 'convert-svg-to-png';
 
-const prepareSizes = options =>
-  [options.height ? [
+const prepareSizes = options => {
+  const result = [options.height ? [
     {
       height: options.height,
       width: options.width || options.height
@@ -16,13 +16,13 @@ const prepareSizes = options =>
     .map(val => ({
       height: val[1],
       width: val[3] || val[1]
-    })))]
-    .map(val => {
-      if (val.length === 0) {
-        throw new Error("No size provided");
-      }
-      return val;
-    })[0];
+    })))][0];
+
+  if (result.length === 0) {
+    return [{ width: 0, height: 0 }];
+  }
+  return result;
+}
 
 export default function (content) {
   const options = loaderUtils.getOptions(this);
@@ -51,7 +51,7 @@ export default function (content) {
     return new Promise((resolve, reject) => {
       const outputPath = outputPathBase.replace(/\[([^\]]+)]/g, (match) => {
         match = match.replace(/^\[|]$/g, '');
-        return size[match] ? size[match] : match
+        return (size[match] || size[match] === 0) ? size[match] : match
       });
 
       const exportNum = Math.floor(100000 + Math.random() * 9000000);
@@ -60,8 +60,8 @@ export default function (content) {
 
       converter.convertFile(this.resourcePath, {
         outputFilePath: exportOutputPath,
-        width: size.width,
-        height: size.height,
+        width: size.width || undefined,
+        height: size.height || undefined,
       })
         .then(() => {
           fs.readFile(exportOutputPath, (err, content) => {
@@ -85,8 +85,14 @@ export default function (content) {
       let output = 'module.exports = {';
       output += results.map((result) => {
         const sizeKey = `${result.size.height}x${result.size.width}`;
-        return `"${sizeKey}": __webpack_public_path__ + "${result.outputPath}"`
+        return `"${sizeKey}": __webpack_public_path__ + "${result.outputPath}"`;
       }).join(',');
+
+      const defaultResult = results.find(x => x.size.height === 0 && x.size.width === 0);
+      if (defaultResult) {
+        output += `,"default": __webpack_public_path__ + "${defaultResult.outputPath}"`;
+      }
+
       output += '};';
       callback(null, output);
     })

@@ -122,7 +122,7 @@ test.cb("with outputPath", (t) => {
     });
 });
 
-test.cb("throws error if no size provided", (t) => {
+test.cb("auto calculates size if no size provided", (t) => {
   const compiler = getCompiler("with-loader.js", {
     module: {
       rules: [
@@ -142,9 +142,7 @@ test.cb("throws error if no size provided", (t) => {
   });
   compile(compiler)
     .then((stats) => {
-      console.log(stats.compilation.errors.length > 0);
-      t.true(stats.compilation.errors.length > 0);
-      t.true(`${stats.compilation.errors[0].message}`.includes('No size provided'));
+      t.true(Object.keys(stats.compilation.assets).includes(`Freesample-0x0.png`))
       t.end();
     })
     .catch((err) => {
