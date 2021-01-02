@@ -42,9 +42,9 @@
     "webpack": "^4.43.0"
   },
   "scripts": {
+    "prepare": "npm run build",
     "clean": "rimraf lib/",
     "lint": "eslint src",
-    "test2": "nyc ava",
     "test": "npm run lint && cross-env BABEL_ENV=test npm run build && nyc ava",
     "build": "babel src/ --out-dir lib/",
     "prepublishOnly": "npm run build"
