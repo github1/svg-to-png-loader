@@ -87,12 +87,6 @@ export default function (content) {
         const sizeKey = `${result.size.height}x${result.size.width}`;
         return `"${sizeKey}": __webpack_public_path__ + "${result.outputPath}"`;
       }).join(',');
-
-      const defaultResult = results.find(x => x.size.height === 0 && x.size.width === 0);
-      if (defaultResult) {
-        output += `,"default": __webpack_public_path__ + "${defaultResult.outputPath}"`;
-      }
-
       output += '};';
       callback(null, output);
     })
