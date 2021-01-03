@@ -25,7 +25,7 @@ const prepareSizes = options => {
 }
 
 export default function (content) {
-  const options = loaderUtils.getOptions(this);
+  const options = Object.assign({}, loaderUtils.getOptions(this), loaderUtils.parseQuery(this.resourceQuery || '?'));
   const context = options.context || this.rootContext;
   const callback = this.async();
   const logger = this.getLogger ? this.getLogger('svg-to-png-loader') : console;

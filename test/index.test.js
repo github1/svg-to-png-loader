@@ -1,6 +1,6 @@
 import path from "path";
 import webpack from "webpack";
-import {createFsFromVolume, Volume} from "memfs";
+import { createFsFromVolume, Volume } from "memfs";
 import test from "ava";
 
 const getCompiler = (fixture, config = {}) => {
@@ -53,6 +53,36 @@ test.cb("inline require", (t) => {
     .then((stats) => {
       const mainjs = readAsset('main.js', compiler, stats);
       t.true(mainjs.includes('module.exports = {"57x57": __webpack_require__.p + "Freesample-57x57.png"};'),
+        "output should include map of images by size");
+      t.end();
+    })
+    .catch((err) => {
+      t.fail(err)
+    });
+});
+
+test.cb("with resource query", (t) => {
+  const compiler = getCompiler("with-resource-query.js", {
+    module: {
+      rules: [
+        {
+          test: /\.svg/i,
+          rules: [
+            {
+              loader: path.resolve(__dirname, "../lib/index"),
+              options: {
+                name: "[name]-[height]x[width].png",
+              }
+            },
+          ],
+        },
+      ]
+    }
+  });
+  compile(compiler)
+    .then((stats) => {
+      const mainjs = readAsset('main.js', compiler, stats);
+      t.true(mainjs.includes('module.exports = {"120x120": __webpack_require__.p + "Freesample-120x120.png"}'),
         "output should include map of images by size");
       t.end();
     })
