@@ -67,5 +67,7 @@ module.exports = {
 };
 ```
 
+If no size is specified, the size will be detected automatically from the `svg` file, and exported with the key `0x0`.
+
 ## License
 [MIT](LICENSE.md)
