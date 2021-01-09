@@ -1,13 +1,17 @@
 {
+  "parser": "@babel/eslint-parser",
+  "plugins": [
+    "@babel"
+  ],
   "env": {
     "es6": true,
     "node": true
   },
-  "extends": [
-    "eslint-config-babel"
-  ],
   "rules": {
     "arrow-parens": "off",
     "no-confusing-arrow": "off"
+  },
+  "parserOptions": {
+    "sourceType": "module"
   }
 }

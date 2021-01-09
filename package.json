@@ -17,30 +17,31 @@
     "node": ">=10.12.0"
   },
   "dependencies": {
-    "loader-utils": "^1.2.0"
+    "convert-svg-to-png": "^0.5.0",
+    "loader-utils": "^2.0.0"
   },
   "peerDependencies": {
     "webpack": ">=2"
   },
   "devDependencies": {
-    "ava": "^0.19.1",
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.25.0",
-    "babel-eslint": "^10.0.0",
-    "babel-plugin-istanbul": "^4.1.4",
-    "babel-plugin-transform-object-rest-spread": "^6.26.0",
-    "babel-preset-env": "1.7.0",
-    "babel-register": "^6.24.1",
-    "cross-env": "^5.0.1",
-    "eslint": "^6.0.0",
-    "eslint-config-babel": "^9.0.0",
-    "eslint-plugin-flowtype": "^3.12.1",
+    "@ava/babel": "^1.0.1",
+    "@babel/cli": "^7.12.10",
+    "@babel/core": "^7.12.10",
+    "@babel/eslint-parser": "^7.12.1",
+    "@babel/eslint-plugin": "^7.12.1",
+    "@babel/preset-env": "^7.12.11",
+    "@babel/register": "^7.12.10",
+    "ava": "^3.15.0",
+    "babel-plugin-istanbul": "^6.0.0",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.17.0",
     "memfs": "^3.2.0",
-    "nyc": "^11.0.2",
-    "rimraf": "^2.6.1",
+    "nyc": "^15.1.0",
+    "rimraf": "^3.0.2",
     "webpack": "^4.43.0"
   },
   "scripts": {
+    "prepare": "npm run build",
     "clean": "rimraf lib/",
     "lint": "eslint src",
     "test": "npm run lint && cross-env BABEL_ENV=test npm run build && nyc ava",
@@ -64,7 +65,7 @@
       "json"
     ],
     "require": [
-      "babel-register"
+      "@babel/register"
     ],
     "sourceMap": false,
     "instrument": true
@@ -76,6 +77,6 @@
     "source": [
       "src/**/*.js"
     ],
-    "babel": "inherit"
+    "babel": true
   }
 }
