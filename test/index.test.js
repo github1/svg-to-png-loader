@@ -51,13 +51,16 @@ test.cb("inline require", (t) => {
   const compiler = getCompiler('inline-require.js');
   compile(compiler)
     .then((stats) => {
-      const mainjs = readAsset('main.js', compiler, stats);
-      t.true(mainjs.includes('module.exports = {"57x57": __webpack_require__.p + "Freesample-57x57.png"};'),
-        "output should include map of images by size");
-      t.end();
+      try {
+        const mainjs = readAsset('main.js', compiler, stats);
+        t.true(mainjs.includes('module.exports = {"16x16": __webpack_require__.p + "images/Freesample-16x16.png","24x24": __webpack_require__.p + "images/Freesample-24x24.png","32x32": __webpack_require__.p + "images/Freesample-32x32.png","48x48": __webpack_require__.p + "images/Freesample-48x48.png","128x128": __webpack_require__.p + "images/Freesample-128x128.png"};'),
+          "output should include map of images by size");
+      } finally {
+        t.end();
+      }
     })
     .catch((err) => {
-      t.fail(err)
+      t.fail(err);
     });
 });
 
@@ -81,13 +84,16 @@ test.cb("with resource query", (t) => {
   });
   compile(compiler)
     .then((stats) => {
-      const mainjs = readAsset('main.js', compiler, stats);
-      t.true(mainjs.includes('module.exports = {"120x120": __webpack_require__.p + "Freesample-120x120.png"}'),
-        "output should include map of images by size");
-      t.end();
+      try {
+        const mainjs = readAsset('main.js', compiler, stats);
+        t.true(mainjs.includes('module.exports = {"120x120": __webpack_require__.p + "Freesample-120x120.png"}'),
+          "output should include map of images by size");
+      } finally {
+        t.end();
+      }
     })
     .catch((err) => {
-      t.fail(err)
+      t.fail(err);
     });
 });
 
@@ -112,13 +118,16 @@ test.cb("with loader", (t) => {
   });
   compile(compiler)
     .then((stats) => {
-      const mainjs = readAsset('main.js', compiler, stats);
-      t.true(mainjs.includes('module.exports = {"57x57": __webpack_require__.p + "Freesample-57x57.png","72x72": __webpack_require__.p + "Freesample-72x72.png","88x101": __webpack_require__.p + "Freesample-88x101.png"}'),
-        "output should include map of images by size");
-      t.end();
+      try {
+        const mainjs = readAsset('main.js', compiler, stats);
+        t.true(mainjs.includes('module.exports = {"57x57": __webpack_require__.p + "Freesample-57x57.png","72x72": __webpack_require__.p + "Freesample-72x72.png","88x101": __webpack_require__.p + "Freesample-88x101.png"}'),
+          "output should include map of images by size");
+      } finally {
+        t.end();
+      }
     })
     .catch((err) => {
-      t.fail(err)
+      t.fail(err);
     });
 });
 
@@ -144,11 +153,14 @@ test.cb("with outputPath", (t) => {
   });
   compile(compiler)
     .then((stats) => {
-      t.true(Object.keys(stats.compilation.assets).includes(`images${path.sep}Freesample-160x160.png`))
-      t.end();
+      try {
+        t.true(Object.keys(stats.compilation.assets).includes(`images${path.sep}Freesample-160x160.png`));
+      } finally {
+        t.end();
+      }
     })
     .catch((err) => {
-      t.fail(err)
+      t.fail(err);
     });
 });
 
@@ -172,10 +184,13 @@ test.cb("auto calculates size if no size provided", (t) => {
   });
   compile(compiler)
     .then((stats) => {
-      t.true(Object.keys(stats.compilation.assets).includes(`Freesample-0x0.png`))
-      t.end();
+      try {
+        t.true(Object.keys(stats.compilation.assets).includes(`Freesample-1x1.png`));
+      } finally {
+        t.end();
+      }
     })
     .catch((err) => {
-      t.fail(err)
+      t.fail(err);
     });
 });

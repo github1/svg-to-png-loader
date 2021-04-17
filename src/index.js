@@ -1,7 +1,6 @@
 import * as loaderUtils from "loader-utils";
 import path from "path";
-import fs from "fs";
-import { createConverter } from 'convert-svg-to-png';
+import sharp from "sharp";
 
 const prepareSizes = options => {
   const result = [options.height ? [
@@ -19,9 +18,13 @@ const prepareSizes = options => {
     })))][0];
 
   if (result.length === 0) {
-    return [{ width: 0, height: 0 }];
+    return [{width: 1, height: 1}];
   }
-  return result;
+  return result.map(size => ({
+      width: parseInt(`${size.width || 1}`),
+      height: parseInt(`${size.height || 1}`)
+    }
+  ));
 }
 
 export default function (content) {
@@ -46,38 +49,21 @@ export default function (content) {
     outputPathBase = path.join(options.outputPath, outputPathBase);
   }
 
-  const converter = createConverter();
   Promise.all(prepareSizes(options).map((size) => {
     return new Promise((resolve, reject) => {
+      // Determine webpack output path
       const outputPath = outputPathBase.replace(/\[([^\]]+)]/g, (match) => {
         match = match.replace(/^\[|]$/g, '');
         return (size[match] || size[match] === 0) ? size[match] : match
       });
-
-      const exportNum = Math.floor(100000 + Math.random() * 9000000);
-      const exportOutputPath = path.join(context, `${outputPath}.${exportNum}.export`);
-      fs.mkdirSync(path.dirname(exportOutputPath), { recursive: true });
-
-      converter.convertFile(this.resourcePath, {
-        outputFilePath: exportOutputPath,
-        width: size.width || undefined,
-        height: size.height || undefined,
-      })
-        .then(() => {
-          fs.readFile(exportOutputPath, (err, content) => {
-            if (err) {
-              logger.error(`Failed to load ${exportOutputPath}`, err);
-              reject(new Error(`Failed to load ${exportOutputPath}`));
-            } else {
-              fs.unlink(exportOutputPath, (err) => {
-                if (err) {
-                  logger.error(`Failed to clean ${exportOutputPath}`, err);
-                }
-              });
-              this.emitFile(outputPath, content);
-              resolve({ size, outputPath });
-            }
-          });
+      // Do conversion
+      sharp(this.resourcePath)
+        .resize(size.width, size.height)
+        .png()
+        .toBuffer()
+        .then(data => {
+          this.emitFile(outputPath, data);
+          resolve({size, outputPath});
         });
     });
   }))
@@ -92,8 +78,5 @@ export default function (content) {
     })
     .catch((error) => {
       callback(error);
-    })
-    .finally(() => {
-      converter.destroy();
     });
 }

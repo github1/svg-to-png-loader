@@ -1,6 +1,6 @@
 {
   "name": "svg-to-png-loader",
-  "version": "3.0.0",
+  "version": "4.0.0",
   "description": "webpack loader which converts SVG files to PNG files",
   "license": "MIT",
   "repository": "github1/svg-to-png-loader",
@@ -17,8 +17,8 @@
     "node": ">=10.12.0"
   },
   "dependencies": {
-    "convert-svg-to-png": "^0.5.0",
-    "loader-utils": "^2.0.0"
+    "loader-utils": "^2.0.0",
+    "sharp": "^0.28.1"
   },
   "peerDependencies": {
     "webpack": ">=2"

@@ -7,3 +7,5 @@ node_modules
 .nyc_output
 coverage
 *.png
+./outputs
+*.export
