@@ -44,7 +44,7 @@
     "prepare": "npm run build",
     "clean": "rimraf lib/",
     "lint": "eslint src",
-    "test": "npm run lint && cross-env BABEL_ENV=test npm run build && nyc ava",
+    "test": "npm run lint && cross-env BABEL_ENV=test npm run build && nyc ava --verbose",
     "build": "babel src/ --out-dir lib/",
     "prepublishOnly": "npm run build"
   },
