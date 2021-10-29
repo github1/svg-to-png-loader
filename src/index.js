@@ -18,7 +18,7 @@ const prepareSizes = options => {
     })))][0];
 
   if (result.length === 0) {
-    return [{width: 1, height: 1}];
+    return [{width: -1, height: -1}];
   }
   return result.map(size => ({
       width: parseInt(`${size.width || 1}`),
@@ -31,7 +31,6 @@ export default function (content) {
   const options = Object.assign({}, loaderUtils.getOptions(this), loaderUtils.parseQuery(this.resourceQuery || '?'));
   const context = options.context || this.rootContext;
   const callback = this.async();
-  const logger = this.getLogger ? this.getLogger('svg-to-png-loader') : console;
   options.name = options.name || '[contenthash].png';
   options.name = options.name.replace('[name]', path
     .basename(this.resourcePath)
@@ -51,19 +50,25 @@ export default function (content) {
 
   Promise.all(prepareSizes(options).map((size) => {
     return new Promise((resolve, reject) => {
-      // Determine webpack output path
-      const outputPath = outputPathBase.replace(/\[([^\]]+)]/g, (match) => {
-        match = match.replace(/^\[|]$/g, '');
-        return (size[match] || size[match] === 0) ? size[match] : match
-      });
+      let sharpInst = sharp(this.resourcePath);
       // Do conversion
-      sharp(this.resourcePath)
-        .resize(size.width, size.height)
-        .png()
-        .toBuffer()
-        .then(data => {
-          this.emitFile(outputPath, data);
-          resolve({size, outputPath});
+      if (size.width > -1 && size.height > -1) {
+        sharpInst = sharpInst.resize(size.width, size.height);
+      }
+      sharpInst.png()
+        .toBuffer((err, data, info) => {
+          if (err) {
+            reject(err);
+          } else {
+            const finalSize = {height: info.height, width: info.width};
+            // Determine webpack output path
+            const outputPath = outputPathBase.replace(/\[([^\]]+)]/g, (match) => {
+              match = match.replace(/^\[|]$/g, '');
+              return (finalSize[match] || finalSize[match] === 0) ? finalSize[match] : match
+            });
+            this.emitFile(outputPath, data);
+            resolve({size:finalSize, outputPath});
+          }
         });
     });
   }))

@@ -1,3 +1,3 @@
-import png from './Freesample.svg';
+import png from './images/Freesample.svg';
 
 export default png;

@@ -185,7 +185,8 @@ test.cb("auto calculates size if no size provided", (t) => {
   compile(compiler)
     .then((stats) => {
       try {
-        t.true(Object.keys(stats.compilation.assets).includes(`Freesample-1x1.png`));
+        console.log(stats.compilation.assets);
+        t.true(Object.keys(stats.compilation.assets).includes(`Freesample-392x472.png`));
       } finally {
         t.end();
       }
